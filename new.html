@@ -1,232 +1,210 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Art Prompt Generator Chatbot</title>
-    <link rel="icon" href="bot.png" type="image/png" class="rounded-lg">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #93ddd9, #fed6e3);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            overflow: hidden;
-        }
-        .chat-container {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-            width: 400px;
-            max-height: 600px;
-            display: flex;
-            flex-direction: column;
-            animation: popIn 1s ease forwards;
-            transform: scale(0);
-        }
-        @keyframes popIn {
-            to {
-                transform: scale(1);
-            }
-        }
-        .chat-header {
-            background: #7b2cbf;
-            color: white;
-            padding: 20px;
-            border-radius: 15px 15px 0 0;
-            text-align: center;
-            font-size: 1.5em;
-            animation: slideDown 1s ease forwards;
-        }
-        @keyframes slideDown {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(0); }
-        }
-        .chat-body {
-            flex: 1;
-            padding: 15px;
-            overflow-y: auto;
-            background: #fafafa;
-        }
-        .message {
-            margin: 10px 0;
-            padding: 12px;
-            border-radius: 10px;
-            max-width: 80%;
-            opacity: 0;
-            animation: fadeIn 0.5s ease forwards;
-        }
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
-        .user-message {
-            /* background: #867af5; */
-            background: #7b2cbf;
-            margin-left: auto;
-            text-align: right;
-            color: white;
-        }
-        .bot-message {
-            background: #f6e3fc;
-            margin-right: auto;
-        }
-        .chat-footer {
-            padding: 15px;
-            border-top: 1px solid #ddd;
-            display: flex;
-            gap: 10px;
-            background: white;
-            border-radius: 0 0 15px 15px;
-        }
-        input[type="text"] {
-            flex: 1;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 50px;
-            outline: none;
-            transition: all 0.3s ease;
-        }
-        input[type="text"]:focus {
-            border-color: #7b2cbf;
-        }
-        button {
-            padding: 12px 20px;
-            background: #7b2cbf;
-            color: white;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: background 0.3s ease, transform 0.2s ease;
-        }
-        button:hover {
-            background: #9d4edd;
-            transform: scale(1.05);
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Art Prompt Generator Chatbot</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #93ddd9, #fed6e3);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+    }
+    .chat-container {
+      background: white;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      width: 400px;
+      max-height: 600px;
+      display: flex;
+      flex-direction: column;
+      animation: popIn 1s ease forwards;
+      transform: scale(0);
+    }
+    @keyframes popIn {
+      to { transform: scale(1); }
+    }
+    .chat-header {
+      background: #7b2cbf;
+      color: white;
+      padding: 20px;
+      border-radius: 15px 15px 0 0;
+      text-align: center;
+      font-size: 1.5em;
+      animation: slideDown 1s ease forwards;
+    }
+    @keyframes slideDown {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(0); }
+    }
+    .chat-body {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      background: #fafafa;
+    }
+    .message {
+      margin: 10px 0;
+      padding: 12px;
+      border-radius: 10px;
+      max-width: 80%;
+      opacity: 0;
+      animation: fadeIn 0.5s ease forwards;
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+    .user-message {
+      background: #7b2cbf;
+      margin-left: auto;
+      text-align: right;
+      color: white;
+    }
+    .bot-message {
+      background: #f6e3fc;
+      margin-right: auto;
+    }
+    .chat-footer {
+      padding: 15px;
+      border-top: 1px solid #ddd;
+      display: flex;
+      gap: 10px;
+      background: white;
+      border-radius: 0 0 15px 15px;
+    }
+    input[type="text"] {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 50px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+    input[type="text"]:focus {
+      border-color: #7b2cbf;
+    }
+    button {
+      padding: 12px 20px;
+      background: #7b2cbf;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+    button:hover {
+      background: #9d4edd;
+      transform: scale(1.05);
+    }
+  </style>
 </head>
 <body>
-    <div class="chat-container">
-        <div class="chat-header">Art Prompt Generator&nbsp;<i class="fa fa-comment-dots"></i> <!-- Chatbot icon --></div>
-        <div class="chat-body" id="chatBody">
-            <div class="bot-message">Hi! I'm your art prompt generator powered made By UDIT. Tell me your preferences (e.g., style, theme, mood) or type 'generate' for a random prompt!</div>
-        </div><br>
-        <div class="chat-footer">
-            <input type="text" id="userInput" placeholder="Enter preferences or 'generate'..." />
-            <button onclick="sendMessage()">Send</button>
-        </div>
+  <div class="chat-container">
+    <div class="chat-header">Art Prompt Generator&nbsp;<i class="fa fa-comment-dots"></i></div>
+    <div class="chat-body" id="chatBody">
+      <div class="bot-message">Hi! I'm your art prompt generator created by UDIT. Tell me your preferences (style, theme, mood) or type 'generate' for a random prompt!</div>
+    </div><br>
+    <div class="chat-footer">
+      <input type="text" id="userInput" placeholder="Enter preferences or 'generate'..." />
+      <button onclick="sendMessage()">Send</button>
     </div>
+  </div>
 
-    <script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
+  <script type="text/javascript">
+    const chatBody = document.getElementById('chatBody');
+    const userInput = document.getElementById('userInput');
 
-        function filledCell(cell) {
-          return cell !== '' && cell != null;
+    function addMessage(content, isUser) {
+      const message = document.createElement('div');
+      message.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+      message.textContent = content;
+      chatBody.appendChild(message);
+      chatBody.scrollTop = chatBody.scrollHeight;
+      return message;
+    }
+
+    function typeWriterEffect(element, text, speed = 30) {
+      let i = 0;
+      element.textContent = "";
+      function type() {
+        if (i < text.length) {
+          element.textContent += text.charAt(i);
+          i++;
+          setTimeout(type, speed);
         }
+      }
+      type();
+    }
 
-        function loadFileData(filename) {
-          if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-              try {
-                  var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                  var firstSheetName = workbook.SheetNames[0];
-                  var worksheet = workbook.Sheets[firstSheetName];
-                  var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                  var filteredData = jsonData.filter(row => row.some(filledCell));
-                  var headerRowIndex = filteredData.findIndex((row, index) =>
-                      row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                  );
-                  if (headerRowIndex === -1 || headerRowIndex > 25) {
-                      headerRowIndex = 0;
-                  }
-                  var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); 
-                  csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                  return csv;
-              } catch (e) {
-                  console.error(e);
-                  return "";
-              }
+    async function generatePrompt(preferences) {
+      const apiKey = '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';
+      const endpoint = 'https://api.groq.com/openai/v1/chat/completions';
+
+      const payload = {
+        model: 'llama3-8b-8192',
+        messages: [
+          {
+            role: 'system',
+            content: 'You are a friendly chatbot. You can answer questions or generate unique and inspiring art prompts based on the user’s preferences. Be creative and helpful.'
+          },
+          {
+            role: 'user',
+            content: preferences || 'Generate a random art prompt.'
           }
-          return gk_fileData[filename] || "";
-        }
+        ],
+        max_tokens: 100,
+        temperature: 0.9
+      };
 
-        const chatBody = document.getElementById('chatBody');
-        const userInput = document.getElementById('userInput');
-
-        function addMessage(content, isUser) {
-            const message = document.createElement('div');
-            message.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
-            message.textContent = content;
-            chatBody.appendChild(message);
-            chatBody.scrollTop = chatBody.scrollHeight;
-        }
-
-        async function generatePrompt(preferences) {
-            const apiKey = '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';
-            const endpoint = 'https://api.groq.com/openai/v1/chat/completions';
-
-            const payload = {
-                model: 'llama3-8b-8192',
-                messages: [
-                    {
-                        role: 'system',
-                        content: 'You are a creative art prompt generator. Generate a unique and inspiring drawing prompt based on the user’s preferences. If no specific preferences are provided, create a random, imaginative prompt. Ensure the prompt is concise, vivid, and sparks creativity.'
-                    },
-                    {
-                        role: 'user',
-                        content: preferences || 'Generate a random art prompt.'
-                    }
-                ],
-                max_tokens: 100,
-                temperature: 0.9
-            };
-
-            try {
-                const response = await fetch(endpoint, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${apiKey}`
-                    },
-                    body: JSON.stringify(payload)
-                });
-
-                if (!response.ok) {
-                    const errorText = await response.text();
-                    throw new Error(`API request failed with status ${response.status}: ${errorText}`);
-                }
-
-                const data = await response.json();
-                return data.choices[0].message.content.trim();
-            } catch (error) {
-                console.error('Error:', error.message);
-                return `Error: ${error.message}. Please check your API key or try again later.`;
-            }
-        }
-
-        async function sendMessage() {
-            const input = userInput.value.trim();
-            if (!input) return;
-
-            addMessage(input, true);
-            userInput.value = '';
-
-            const isGenerate = input.toLowerCase() === 'generate';
-            const preferences = isGenerate ? '' : input;
-
-            addMessage('Generating your art prompt...', false);
-
-            const prompt = await generatePrompt(preferences);
-            addMessage(prompt, false);
-        }
-
-        userInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendMessage();
+      try {
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+          },
+          body: JSON.stringify(payload)
         });
-    </script>
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`API request failed with status ${response.status}: ${errorText}`);
+        }
+
+        const data = await response.json();
+        return data.choices[0].message.content.trim();
+      } catch (error) {
+        console.error('Error:', error.message);
+        return `Error: ${error.message}. Please check your API key or try again later.`;
+      }
+    }
+
+    async function sendMessage() {
+      const input = userInput.value.trim();
+      if (!input) return;
+
+      addMessage(input, true);
+      userInput.value = '';
+
+      const preferences = input.toLowerCase() === 'generate' ? '' : input;
+      
+      const thinkingMessage = addMessage('Generating your art prompt...', false);
+
+      const prompt = await generatePrompt(preferences);
+      
+      // Replace "Thinking..." text with animated typing effect
+      typeWriterEffect(thinkingMessage, prompt);
+    }
+
+    userInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
+  </script>
 </body>
 </html>
